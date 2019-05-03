@@ -18,14 +18,11 @@
     android:layout_height="match_parent"
     android:layout_below="@id/button"
     >
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="24sp"
-        android:padding="10dp"
-        android:id="@+id/fetchedData"
-        android:hint="Fetched text come here"/>
-</ScrollView>
 
+</ScrollView>
+    <ListView
+        android:id="@+id/dataViewId"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>
