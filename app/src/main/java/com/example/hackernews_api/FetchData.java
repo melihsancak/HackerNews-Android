@@ -3,6 +3,8 @@ package com.example.hackernews_api;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,8 +20,20 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FetchData extends AsyncTask<String, Float, List<String>> {
-    //input,
+public class FetchData extends AsyncTask<String, Float, List<String>>  {
+    //params,progress,Result
+
+    private ProgressBar progressBar;
+
+
+    public FetchData(ProgressBar progressBar) {
+        this.progressBar = progressBar;
+
+    }
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
 
     public List<Integer> fetchId(String type) {
         String jsonContent = "";
@@ -57,7 +71,7 @@ public class FetchData extends AsyncTask<String, Float, List<String>> {
 
         String jsonContent = "";
         try {
-            URL url = new URL("https://hacker-news.firebaseio.com/v0/item/"+itemId+".json?print=pretty");
+            URL url = new URL("https://hacker-news.firebaseio.com/v0/item/" + itemId + ".json?print=pretty");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = httpURLConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -85,21 +99,31 @@ public class FetchData extends AsyncTask<String, Float, List<String>> {
     public List<String> doInBackground(String... str) {
 
         List<String> data = new ArrayList<>();
-        int counter=5;
+        int topStoriesCount = data.size();
+        int counter = 0;
+        int lastIndex = 30;
         for (int id : fetchId(str[0])) {
-            Log.d(getClass().getSimpleName(), "doInBackground: "+id);
+            Log.d(getClass().getSimpleName(), "doInBackground: " + id);
             data.add(fetchItem(id));
-            counter--;
-            if (counter<0)
+            publishProgress((float) ((counter / (float) topStoriesCount) * 100));
+            counter++;
+            lastIndex--;
+            if (lastIndex == 0)
                 break;
+            if (isCancelled()) {
+                break;
+            }
         }
         return data;
-
     }
-
 
     @Override
     protected void onProgressUpdate(Float... values) {
-        super.onProgressUpdate(values);
+        Log.d("progressBar","values[0]");
+        super.onProgressUpdate(values[0]);
+        progressBar.setProgress(Math.round(values[0]));
     }
+
+
 }
+

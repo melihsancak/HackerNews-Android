@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     Button click;
     ListView data;
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         click = (Button) findViewById(R.id.button);
         data = (ListView) findViewById(R.id.dataViewId);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.item_layout);
         data.setAdapter(adapter);
 
@@ -31,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                FetchData process = new FetchData();
+                progressBar.setVisibility(View.VISIBLE);
+                FetchData process = new FetchData(progressBar);
                 try {
                     List<String> dataList = process.execute("topstories").get();
                     for (String x : dataList) {
                         adapter.add(x);
-                        Log.d("asd", x);
                     }
                 } catch (Exception e) {
 

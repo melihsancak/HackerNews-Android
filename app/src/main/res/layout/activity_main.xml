@@ -10,9 +10,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Click me!"
-    android:layout_margin="10dp"
+    android:layout_margin="20dp"
     android:id="@+id/button"/>
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:minHeight="20dip"
+        android:maxHeight="20dip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,6 +30,7 @@
     <ListView
         android:id="@+id/dataViewId"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="200px"/>
 
 </RelativeLayout>
